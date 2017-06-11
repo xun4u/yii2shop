@@ -38,12 +38,21 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
+        //地址美化
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
+        ],
+        //七牛云配置
+        'qiniu'=>[
+            'class'=>\backend\components\Qiniu::className(),
+            'up_host'=>'http://up.qiniu.com',
+            'accessKey'=>'CDD4INkEdp2BT0PM4PB6U2dEEO1xVqrQX3RqdOah',
+            'secretKey'=>'Egbb9gPGRoL2kyV4Q6m8hZTVTL3P6DfSz9fDVKpQ',
+            'bucket'=>'yii2shop',
+            'domain'=>'http://or9tmzkdz.bkt.clouddn.com',
         ],
 
     ],
