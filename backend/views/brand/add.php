@@ -28,7 +28,7 @@ function(file, data, response) {
     if (data.error) {
         console.log(data.msg);
     } else {
-        console.log(data.fileUrl);
+            console.log(data.fileUrl);
         //上传成功后回显，通过jq将图片地址写入img,不管之前数据库有无图片地址
         $("#img_logo").attr("src",data.fileUrl).show();
         //将上传地址写入logo字段
