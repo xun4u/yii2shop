@@ -11,7 +11,9 @@ class GoodsCategoryController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $models = GoodsCategory::find()->orderBy('tree,lft')->all();
+
+        return $this->render('index',['models'=>$models]);
     }
 
     //添加商品分类

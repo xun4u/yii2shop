@@ -54,6 +54,8 @@ return [
             'bucket'=>'yii2shop',
             'domain'=>'http://or9tmzkdz.bkt.clouddn.com',
         ],
+        //上传
+
 
     ],
     'params' => $params,
