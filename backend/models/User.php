@@ -42,7 +42,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['email'], 'email'],
             [['password_reset_token'], 'unique'],
-            ['code','captcha']
+//            ['code','captcha']
         ];
     }
 

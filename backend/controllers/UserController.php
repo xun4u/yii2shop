@@ -47,7 +47,7 @@ class UserController extends \yii\web\Controller
         $model = new User();
         if($model->load(\Yii::$app->request->post()) && $model->validate()){
             //保存之前在活动记录中有行为实现了添加时间和密码加密
-            $model->save();
+            $model->save(false);
             return $this->redirect(['user/login']);
 
         }
