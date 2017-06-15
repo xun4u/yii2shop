@@ -3,9 +3,30 @@
 namespace backend\controllers;
 
 use backend\models\ArticleCategory;
+use yii\filters\AccessControl;
 
 class ArticleCategoryController extends \yii\web\Controller
 {
+
+    //过滤器
+    public function behaviors(){
+        return [
+            'acf'=>[
+                'class'=>AccessControl::className(),
+                'rules'=>[
+
+                    [
+                        'allow'=>true,
+                        'roles'=>['@'],
+                    ]
+                ],
+            ],
+
+
+        ];
+
+
+    }
     public function actionIndex()
     {
         $model = ArticleCategory::find()->where(['>=','status',0])->all();

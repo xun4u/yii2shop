@@ -3,12 +3,33 @@
 namespace backend\controllers;
 
 use backend\models\GoodsCategory;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 
 class GoodsCategoryController extends \yii\web\Controller
 {
+
+    //过滤器
+    public function behaviors(){
+        return [
+            'acf'=>[
+                'class'=>AccessControl::className(),
+                'rules'=>[
+
+                    [
+                        'allow'=>true,
+                        'roles'=>['@'],
+                    ]
+                ],
+            ],
+
+
+        ];
+
+
+    }
     public function actionIndex()
     {
         $models = GoodsCategory::find()->orderBy('tree,lft')->all();

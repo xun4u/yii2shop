@@ -16,7 +16,7 @@ echo $form->field($model,'name')->textInput(['placeholder'=>'商品名'])->label
 echo $form->field($model,'sn')->textInput(['placeholder'=>'货号'])->label(false);
 echo $form->field($model,'minPrice')->textInput(['placeholder'=>'最低价格'])->label(false);
 echo $form->field($model,'maxPrice')->textInput(['placeholder'=>'最高价格'])->label('--');
-echo \yii\bootstrap\Html::submitInput('搜索',['class'=>'btn btn-info']);
+echo \yii\bootstrap\Html::submitInput('搜索',['class'=>'btn btn-info','style'=>'position:absolute']);
 \yii\bootstrap\ActiveForm::end()
 ?>
 <!--搜索表单结束-->
@@ -57,7 +57,7 @@ echo \yii\bootstrap\Html::submitInput('搜索',['class'=>'btn btn-info']);
             <td><?=$model->sort?></td>
             <td><?=date('Ymd H:i',$model->create_time)?></td>
             <td>
-                <?=\yii\bootstrap\Html::a('图片',['goods/image','id'=>$model->id],['class'=>'btn btn-success btn-xs'])?>
+                <?=\yii\bootstrap\Html::a('图片',['goods/gallery','id'=>$model->id],['class'=>'btn btn-success btn-xs'])?>
                 <?=\yii\bootstrap\Html::a('详细',['goods-intro/index','id'=>$model->id],['class'=>'btn btn-info btn-xs'])?>
                 <?=\yii\bootstrap\Html::a('修改',['goods/edit','id'=>$model->id],['class'=>'btn btn-warning btn-xs'])?>
                 <?=\yii\bootstrap\Html::a('删除',['goods/del','id'=>$model->id],['class'=>'btn btn-danger btn-xs'])?>

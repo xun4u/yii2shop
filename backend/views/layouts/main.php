@@ -28,27 +28,60 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '网站后台',
+        'brandLabel' => '后台管理',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => '首页', 'url' => ['/site/index']],
-    ];
+    $leftMenuItems = [];
+
+
+    $menuItems = [];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '登录', 'url' => ['/site/login']];
+
+        $menuItems[] = ['label' => '登录', 'url' => ['/user/login']];
     } else {
+        $leftMenuItems = [
+            ['label'=>'商品管理','items'=>[
+                ['label'=>'商品列表','url'=>['goods/index']],
+                ['label'=>'添加商品','url'=>['goods/add']],
+            ]],
+            ['label'=>'品牌管理','items'=>[
+                ['label'=>'品牌列表','url'=>['brand/index']],
+                ['label'=>'添加品牌','url'=>['brand/add']],
+            ]],
+            ['label'=>'商品分类','items'=>[
+                ['label'=>'分类列表','url'=>['goods-category/index']],
+                ['label'=>'添加分类','url'=>['goods-category/add']],
+            ]],
+            ['label'=>'文章管理','items'=>[
+                ['label'=>'文章列表','url'=>['article/index']],
+                ['label'=>'添加文章','url'=>['article/add']],
+            ]],
+            ['label'=>'用户管理','items'=>[
+                ['label'=>'用户列表','url'=>['user/index']],
+                ['label'=>'添加用户','url'=>['user/add']],
+            ]]
+        ];
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
+            . Html::beginForm(['/user/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                '注销 (' . Yii::$app->user->identity->username . '用户)',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
-            . '</li>';
+            . '</li>'
+            .'<li>'.
+            Html::a('修改密码',['user/reset-pwd'])
+            .'</li>';
     }
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => $leftMenuItems,
+    ]);
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,

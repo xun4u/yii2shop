@@ -6,15 +6,37 @@ use backend\models\Brand;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
+use backend\models\GoodsGallery;
 use backend\models\GoodsImages;
 use backend\models\GoodsIntro;
 use backend\models\GoodsSearchForm;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use xj\uploadify\UploadAction;//使用插件-composer安装的upload插件
+use xj\uploadify\UploadAction;
+use yii\web\NotFoundHttpException;//使用插件-composer安装的upload插件
 
 class GoodsController extends \yii\web\Controller
 {
+    //过滤器
+    public function behaviors(){
+        return [
+            'acf'=>[
+                'class'=>AccessControl::className(),
+                'rules'=>[
+
+                    [
+                        'allow'=>true,
+                        'roles'=>['@'],
+                    ]
+                ],
+            ],
+
+
+        ];
+
+
+    }
     public function actionIndex()
     {
         //搜索
@@ -102,6 +124,30 @@ class GoodsController extends \yii\web\Controller
         $categories = ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0,'open'=>1]],GoodsCategory::find()->asArray()->all());
 
         return $this->render('add',['goods'=>$goods,'goods_intro'=>$goods_intro,'brands'=>$brands,'categories'=>$categories]);
+    }
+
+
+    //商品相册
+    public function actionGallery($id){
+        $goods =GoodsGallery::findOne($id);
+        if($goods==null){
+            throw new NotFoundHttpException('商品不存在');
+        }
+        return $this->render('gallery',['goods'=>$goods]);
+    }
+
+    /*
+     * AJAX删除图片
+     */
+    public function actionDelGallery(){
+        $id = \Yii::$app->request->post('id');
+        $model = GoodsGallery::findOne(['id'=>$id]);
+        if($model && $model->delete()){
+            return 'success';
+        }else{
+            return 'fail';
+        }
+
     }
 
     //文件上传插件uploadify

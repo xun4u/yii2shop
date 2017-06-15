@@ -3,12 +3,33 @@
 namespace backend\controllers;
 
 use backend\models\Brand;
+use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;//使用插件-composer安装的upload插件
 use crazyfd\qiniu\Qiniu;//七牛云上传插件
 
 class BrandController extends \yii\web\Controller
 {
+    //过滤器
+    public function behaviors(){
+        return [
+            'acf'=>[
+                'class'=>AccessControl::className(),
+                'rules'=>[
+
+                    [
+                        'allow'=>true,
+                        'roles'=>['@'],
+                    ]
+                ],
+            ],
+
+
+        ];
+
+
+    }
+
     public function actionIndex()
     {
         $model = Brand::find()->where(['>=','status',0])->all();

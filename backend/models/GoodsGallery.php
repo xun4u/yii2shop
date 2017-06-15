@@ -5,21 +5,20 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "goods_images".
+ * This is the model class for table "goods_gallery".
  *
  * @property integer $id
  * @property integer $goods_id
- * @property integer $url
- * @property integer $sort
+ * @property string $path
  */
-class GoodsImages extends \yii\db\ActiveRecord
+class GoodsGallery extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'goods_images';
+        return 'goods_gallery';
     }
 
     /**
@@ -28,7 +27,8 @@ class GoodsImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['goods_id', 'url', 'sort'], 'integer'],
+            [['goods_id'], 'integer'],
+            [['path'], 'string', 'max' => 255],
         ];
     }
 
@@ -39,9 +39,8 @@ class GoodsImages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'goods_id' => '商品ID',
-            'url' => '图片地址',
-            'sort' => '排序',
+            'goods_id' => '商品id',
+            'path' => '图片路径',
         ];
     }
 }

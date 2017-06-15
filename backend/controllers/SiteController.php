@@ -2,6 +2,8 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\captcha\Captcha;
+use yii\captcha\CaptchaAction;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -22,7 +24,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','captcha'],
                         'allow' => true,
                     ],
                     [
@@ -50,6 +52,12 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'captcha'=>[
+                'class'=>CaptchaAction::className(),
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'minLength'=>3,
+                'maxLength'=>3,
+            ]
         ];
     }
 
