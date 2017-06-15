@@ -19,8 +19,8 @@ return [
         ],
         'user' => [
             'loginUrl'=>['user/login'],
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'identityClass' => \backend\models\User::className(),
+            'enableAutoLogin' => true,//需要cookie的自动登录 需要开启
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

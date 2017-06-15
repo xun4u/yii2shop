@@ -72,6 +72,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             $this->created_at = time();//添加创建时间
             $this->password_hash = Yii::$app->security->generatePasswordHash($this->password_hash);//加密
 
+            //生成随机的字符串（token）,在注册的时候就在服务器设置好了该用户的自动登陆令牌
+            $this->auth_key = Yii::$app->security->generateRandomKey();
+
         }else{
             //更新，如果密码修改则重新加密，密码没改不需要操作
             $this->updated_at = time();//更新时间
@@ -134,7 +137,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return $this->auth_key; //获取服务器中该用户的令牌
     }
 
     /**
@@ -147,6 +150,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+        return $this->getAuthKey() == $authKey; //验证令牌;本地自动登录时保存在cookie中的令牌
     }
 }
