@@ -66,7 +66,6 @@ class GoodsController extends \yii\web\Controller
     public function actionAdd(){
         $goods = new Goods();
         $goods_intro = new GoodsIntro();
-        $goods_img = new GoodsImages();
 
         if($goods->load(\Yii::$app->request->post())
             && $goods_intro->load(\Yii::$app->request->post())
@@ -101,7 +100,7 @@ class GoodsController extends \yii\web\Controller
         $brands = ArrayHelper::map(Brand::find()->asArray()->all(),'id','name');
         $categories = ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0,'open'=>1]],GoodsCategory::find()->asArray()->all());
 
-        return $this->render('add',['goods'=>$goods,'goods_intro'=>$goods_intro,'brands'=>$brands,'categories'=>$categories,'images'=>$goods_img]);
+        return $this->render('add',['goods'=>$goods,'goods_intro'=>$goods_intro,'brands'=>$brands,'categories'=>$categories]);
     }
 
     //修改
