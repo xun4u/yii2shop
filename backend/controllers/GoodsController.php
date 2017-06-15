@@ -197,7 +197,13 @@ class GoodsController extends \yii\web\Controller
                     $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"*/
                 },
             ],
+
+            'upload' => [
+                'class' => 'kucha\ueditor\UEditorAction',
+            ]
         ];
     }
+
+
 
 }
