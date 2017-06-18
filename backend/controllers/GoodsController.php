@@ -37,6 +37,8 @@ class GoodsController extends \yii\web\Controller
 
 
     }
+
+    //列表显示
     public function actionIndex()
     {
         //搜索
@@ -192,9 +194,9 @@ class GoodsController extends \yii\web\Controller
                     $action->output['fileUrl'] = $action->getWebUrl();
 
                     $action->output['fileUrl'] = $imgUrl;
-                    /*$action->getFilename(); // "image/yyyymmddtimerand.jpg"
+                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
                     $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
-                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"*/
+                    $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"
                 },
             ],
 

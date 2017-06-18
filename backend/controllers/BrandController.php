@@ -135,11 +135,14 @@ class BrandController extends \yii\web\Controller
                 'afterValidate' => function (UploadAction $action) {},
                 'beforeSave' => function (UploadAction $action) {},
                 'afterSave' => function (UploadAction $action) {
+
                     $imgUrl = $action->getWebUrl();//获取上传后的图片在本地的相对路径
 //                    $action->output['fileUrl'] = $action->getWebUrl();
                     //调用七牛云组件，将图片上传到七牛云
                     $qiniu = \Yii::$app->qiniu;
+
                     $qiniu->uploadFile(\Yii::getAlias('@webroot').$imgUrl,$imgUrl);
+
                     //获取图片在七牛云的地址
                     $url = $qiniu->getLink($imgUrl);
                     $action->output['fileUrl'] = $url;//将七牛云的地址输出到前端

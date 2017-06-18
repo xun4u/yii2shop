@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\LoginForm;
 use backend\models\PasswordForm;
 use backend\models\User;
+use backend\models\UserEditForm;
 use yii\filters\AccessControl;
 
 class UserController extends \yii\web\Controller
@@ -39,12 +40,15 @@ class UserController extends \yii\web\Controller
 
         $models = User::find()->all();
 
+
         return $this->render('index',['models'=>$models]);
     }
 
-    //用户的添加（注册）
+    //用户的添加
     public function actionAdd(){
         $model = new User();
+
+
         if($model->load(\Yii::$app->request->post()) && $model->validate()){
             //保存之前在活动记录中有行为实现了添加时间和密码加密
             $model->save(false);
@@ -72,7 +76,24 @@ class UserController extends \yii\web\Controller
         return $this->render('passwd',['model'=>$model]);
 
     }
-    public function actionEdit(){
+    //用户的角色修改
+    public function actionEdit($id){
+        $model = new UserEditForm();
+
+        $model->loadData($id);//表单加载回显数据
+
+        if($model->load(\Yii::$app->request->post()) && $model->validate()){
+            //提交保存
+            if($model->edit($id)){
+                //修改执行成功
+                \Yii::$app->session->setFlash('success','修改成功');
+                return $this->redirect(['user/index']);
+
+            }
+
+        }
+
+        return $this->render('user-edit',['model'=>$model]);
 
     }
 
