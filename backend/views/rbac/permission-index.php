@@ -1,3 +1,4 @@
+<p><?=\yii\bootstrap\Html::a('添加权限',['rbac/permission-add'],['class'=>'btn btn-primary'])?></p>
 <table class="table table-bordered">
     <tr>
         <th>权限名</th>

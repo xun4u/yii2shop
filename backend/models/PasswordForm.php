@@ -29,9 +29,9 @@ class PasswordForm extends Model{
     }
     //自定义的验证规则 验证密码是否正确
     public function validatePassword(){
-        $passwordHash = \Yii::$app->user->identity->password_hash;//从登陆状态组件中获取当前用户密码
+        $passwordHash = \Yii::$app->user->identity->password_hash;//从登陆状态组件中获取当前用户密码（加密）
 
-        $password = $this->old_password; //表单中填得旧密码
+        $password = $this->old_password; //表单中填得旧密码（未加密）
 
         if(!\Yii::$app->security->validatePassword($password,$passwordHash)){ //验证这2个密码是否匹配
             $this->addError('old_password','旧密码不正确');

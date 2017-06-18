@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\components\RbacFilter;
 use backend\models\LoginForm;
 use backend\models\PasswordForm;
 use backend\models\User;
@@ -14,21 +15,10 @@ class UserController extends \yii\web\Controller
     //过滤器
     public function behaviors(){
         return [
-            'acf'=>[
-                'class'=>AccessControl::className(),
-                'rules'=>[
-                    [
-                      'allow'=>true,
-                      'actions'=>['login','add'],
-                      'roles'=>['?'],
-                    ],
-                    [
-                        'allow'=>true,
-                        'roles'=>['@'],
-                    ]
-                ],
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'only'=>['index','add','reset-pwd','edit','del']
             ],
-
 
         ];
 
@@ -63,7 +53,8 @@ class UserController extends \yii\web\Controller
         $model = new PasswordForm();
         if($model->load(\Yii::$app->request->post()) && $model->validate()){
             $user = \Yii::$app->user->identity;//当前用户的登录信息
-            $user->password_hash = \Yii::$app->security->generatePasswordHash($model->new_password); //将其密码设置为表单中的新密码
+            $user->password_hash = \Yii::$app->security->generatePasswordHash($model->new_password);
+            //将其密码设置为表单中的新密码
 
             if($user->save(false)){
                 \Yii::$app->session->setFlash('success','密码修改成功');
@@ -111,7 +102,7 @@ class UserController extends \yii\web\Controller
                 //因为验证账号和密码是在表单模型中进行的，验证成功后表单模型已经进行了登录并保存了登录状态
                 //到这一步说明已经验证并登录，直接设置提示信息即可
                 \Yii::$app->session->setFlash('success','登录成功');
-                return $this->redirect(['user/index']);
+                return $this->redirect(['user/home']);
 
             }
         }
@@ -125,6 +116,13 @@ class UserController extends \yii\web\Controller
         \Yii::$app->user->logout();
         \Yii::$app->session->setFlash('success','注销成功');
         return $this->redirect(['user/login']);
+    }
+
+
+    //登录后的主页
+    public function actionHome(){
+        return $this->render('home');
+
     }
 
 }

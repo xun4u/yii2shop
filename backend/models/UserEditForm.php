@@ -51,7 +51,7 @@ class UserEditForm extends Model{
 
         $obj = User::findOne(['id'=>$id]); //数据库对象
         $authManager = \Yii::$app->authManager;
-        $roles = $authManager->getRolesByUser($id); //对应角色对象
+//        $roles = $authManager->getRolesByUser($id); //对应角色对象
 
         //排除数据库同名冲突,因为用户名不可修改 所以以下判断省略
         /*if($this->username != $obj->username && User::findOne(['username'=>$this->username])){

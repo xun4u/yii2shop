@@ -8,27 +8,9 @@ use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;//使用插件-composer安装的upload插件
 use crazyfd\qiniu\Qiniu;//七牛云上传插件
 
-class BrandController extends \yii\web\Controller
+class BrandController extends backendController
 {
-    //过滤器
-    public function behaviors(){
-        return [
-            'acf'=>[
-                'class'=>AccessControl::className(),
-                'rules'=>[
 
-                    [
-                        'allow'=>true,
-                        'roles'=>['@'],
-                    ]
-                ],
-            ],
-
-
-        ];
-
-
-    }
 
     public function actionIndex()
     {

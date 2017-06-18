@@ -16,27 +16,9 @@ use yii\helpers\ArrayHelper;
 use xj\uploadify\UploadAction;
 use yii\web\NotFoundHttpException;//使用插件-composer安装的upload插件
 
-class GoodsController extends \yii\web\Controller
+class GoodsController extends backendController
 {
-    //过滤器
-    public function behaviors(){
-        return [
-            'acf'=>[
-                'class'=>AccessControl::className(),
-                'rules'=>[
 
-                    [
-                        'allow'=>true,
-                        'roles'=>['@'],
-                    ]
-                ],
-            ],
-
-
-        ];
-
-
-    }
 
     //列表显示
     public function actionIndex()
@@ -100,6 +82,7 @@ class GoodsController extends \yii\web\Controller
             return $this->redirect(['goods/index']);
         }
         $brands = ArrayHelper::map(Brand::find()->asArray()->all(),'id','name');
+
         $categories = ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0,'open'=>1]],GoodsCategory::find()->asArray()->all());
 
         return $this->render('add',['goods'=>$goods,'goods_intro'=>$goods_intro,'brands'=>$brands,'categories'=>$categories]);
