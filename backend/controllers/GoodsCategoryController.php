@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\GoodsCategory;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 
@@ -63,6 +64,21 @@ class GoodsCategoryController extends backendController
 
         $categories = ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0,'open'=>1]],GoodsCategory::find()->asArray()->all());
         return $this->render('add',['model'=>$model,'categories'=>$categories]);
+    }
+
+    //删除分类
+    public function actionDel($id){
+        $model = GoodsCategory::findOne(['parent_id'=>$id]);
+        //如果该分类下有子分类 不能删除
+        if($model != null){
+            \Yii::$app->session->setFlash('danger','该分类下还有子分类，无法删除');
+        }else{
+            $child = GoodsCategory::findOne(['id'=>$id]);
+            $child->delete();
+            \Yii::$app->session->setFlash('success','删除成功');
+            return $this->redirect(['goods-category/index']);
+        }
+
     }
 
 

@@ -78,4 +78,21 @@ class Goods extends \yii\db\ActiveRecord
             'create_time' => '添加时间',
         ];
     }
+
+
+    /*
+     * 商品和相册关系 1对多
+     */
+    public function getGalleries()
+    {
+        return $this->hasMany(GoodsGallery::className(),['goods_id'=>'id']);
+    }
+
+    /*
+     * 获取商品详情
+     */
+    public function getGoodsIntro()
+    {
+        return $this->hasOne(GoodsIntro::className(),['goods_id'=>'id']);
+    }
 }

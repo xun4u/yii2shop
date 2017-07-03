@@ -43,14 +43,28 @@ class NavController extends backendController
     }
 
     //修改菜单
-    public function actionEdit(){
+    public function actionEdit($id){
+        $model = Nav::findOne(['id'=>$id]);
 
+        if($model->load(\Yii::$app->request->post()) && $model->validate()){
+
+            $model->save();
+
+            return $this->redirect(['nav/index']);
+        }
+
+        return $this->render('add',['model'=>$model]);
 
     }
 
     //删除菜单
-    public function actionDel(){
+    public function actionDel($id){
 
+        $model = Nav::findOne(['id'=>$id]);
+
+        $model->delete();
+
+        return $this->redirect(['nav/index']);
     }
 
 }

@@ -25,7 +25,7 @@ class GoodsController extends backendController
     {
         //搜索
 
-        $query = Goods::find();
+        $query = Goods::find()->andWhere(['status'=>1]);
         $model = new GoodsSearchForm();//搜索表单模型
 
         $query = $model->search($query);
@@ -88,6 +88,14 @@ class GoodsController extends backendController
         return $this->render('add',['goods'=>$goods,'goods_intro'=>$goods_intro,'brands'=>$brands,'categories'=>$categories]);
     }
 
+    //删除
+    public function actionDel($id){
+        $goods = Goods::findOne(['id'=>$id]);
+        $goods->status = 0;
+        $goods->save();
+        return $this->redirect(['goods/index']);
+    }
+
     //修改
     public function actionEdit($id){
         $goods = Goods::findOne(['id'=>$id]);
@@ -113,7 +121,7 @@ class GoodsController extends backendController
 
     //商品相册
     public function actionGallery($id){
-        $goods =GoodsGallery::findOne($id);
+        $goods =Goods::findOne($id);
         if($goods==null){
             throw new NotFoundHttpException('商品不存在');
         }
@@ -173,10 +181,17 @@ class GoodsController extends backendController
                 'afterValidate' => function (UploadAction $action) {},
                 'beforeSave' => function (UploadAction $action) {},
                 'afterSave' => function (UploadAction $action) {
-                    $imgUrl = $action->getWebUrl();//获取上传后的图片在本地的相对路径
+//                    $imgUrl = $action->getWebUrl();//获取上传后的图片在本地的相对路径
                     $action->output['fileUrl'] = $action->getWebUrl();
+                    //图片上传成功的同时，将图片和商品关联起来
+                    $model = new GoodsGallery();
+                    $model->goods_id = \Yii::$app->request->post('goods_id');
+                    $model->path = $action->getWebUrl();
+                    $model->save();
+                    $action->output['fileUrl'] = $model->path;
+                    $action->output['id'] = $model->id;
 
-                    $action->output['fileUrl'] = $imgUrl;
+//                    $action->output['fileUrl'] = $imgUrl;
                     $action->getFilename(); // "image/yyyymmddtimerand.jpg"
                     $action->getWebUrl(); //  "baseUrl + filename, /upload/image/yyyymmddtimerand.jpg"
                     $action->getSavePath(); // "/var/www/htdocs/upload/image/yyyymmddtimerand.jpg"

@@ -3,6 +3,8 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\base\InvalidParamException;
+use yii\captcha\Captcha;
+use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -58,10 +60,13 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+            'captcha'=>[
+                'class'=>CaptchaAction::className(),
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'minLength'=>3,
+                'maxLength'=>3,
             ],
+
         ];
     }
 

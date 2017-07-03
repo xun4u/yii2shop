@@ -83,4 +83,19 @@ class GoodsCategory extends ActiveRecord
     {
         return new GoodsCategoryQuery(get_called_class());
     }
+
+    public function getChildren(){
+    return $this->hasMany(GoodsCategory::className(),['parent_id'=>'id']);
+
+    }
+
+    public static function getAll($cate_id){
+        $cates =GoodsCategory::findAll(['parent_id'=>$cate_id]);
+        $cate_ids =[];
+        foreach ($cates as $cate){
+
+            $cate_ids[]=$cate->id;
+        }
+        return $cate_ids;
+    }
 }
