@@ -24,7 +24,8 @@
         "kucha/ueditor": "*",
         "yidashi/yii2-uploader": "*",
         "chenkby/yii2-region": "dev-master",
-        "flc/alidayu": "^2.0"
+        "flc/alidayu": "^2.0",
+        "overtrue/wechat": "~3.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
